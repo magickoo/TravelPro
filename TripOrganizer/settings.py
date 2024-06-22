@@ -28,6 +28,11 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+LOGIN_URL = 'user-login'
+LOGIN_REDIRECT_URL = 'dashboard'
+LOGOUT_REDIRECT_URL = 'dashboard'
+# Application definition
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -39,7 +44,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'dashboard',
     'phonenumber_field',
+    'user',
+    'crispy_forms',
+      'crispy_bootstrap4',
+      'widget_tweaks',
 ]
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

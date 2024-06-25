@@ -1,6 +1,10 @@
-body{
-    background: rgb(230, 227, 227);
+body {
+    background-image: url('background.jpg');
+    background-size: cover; /* This ensures the image covers the entire background */
+    background-position: center; /* This centers the image */
+    background-repeat: no-repeat; /* This prevents the image from repeating */
 }
+
 .my-card:hover{
     transform: scale(1.1);
     transition: 0.2s ease-in-out;

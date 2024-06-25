@@ -30,7 +30,7 @@ ALLOWED_HOSTS = []
 
 LOGIN_URL = 'user-login'
 LOGIN_REDIRECT_URL = 'dashboard'
-LOGOUT_REDIRECT_URL = 'dashboard'
+
 # Application definition
 
 # Application definition

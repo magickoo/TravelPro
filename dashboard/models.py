@@ -13,10 +13,10 @@ GENDER =(
 )
 
 class Client(models.Model):
-    name = models.CharField(max_length = 100, null=True)
-    gender = models.CharField(max_length = 20,choices = GENDER, null = True)
-    email = models.EmailField(max_length=100, unique=True, null= True)
-    contact =  PhoneNumberField(null = True)
+    client_name = models.CharField(max_length = 100, null=True)
+    client_gender = models.CharField(max_length = 20,choices = GENDER, null = True)
+    client_email = models.EmailField(max_length=100, unique=True, null= True)
+    client_contact =  PhoneNumberField(null = True)
     
     def __str__(self):
         return f'{self.name}'

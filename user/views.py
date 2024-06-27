@@ -17,7 +17,7 @@ from .forms import CreateUserForm, UserUpdateForm, ProfileUpdateForm
 # Create your views here.
 
 class signup(generic.CreateView):
-    form_class = UserCreationForm
+    form_class = CreateUserForm
     group = Group.objects.get(name='Clients')
     success_url = reverse_lazy('dashboard')
     template_name = 'user/signup.html'

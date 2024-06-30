@@ -1,7 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from .models import Booking, Client
+from .forms import ClientForm
 
 @login_required
 def index(request):
@@ -13,14 +14,50 @@ def staff(request):
 
 @login_required
 def clients(request):
-    #client_count = client.count()
-    #context = {
+    clients = Client.objects.all()
+    
+    if request.method == 'POST':
+        form = ClientForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('dashboard-clients')
         
-     #   'customer_count': customer_count,
+    else:
+        form = ClientForm()
+    context = {
         
-    #}
-    return render(request,'dashboard/clients.html')
+       'clients': clients,
+       'form': form,
+        
+    }
+    return render(request,'dashboard/clients.html',context)
 
+def clients_delete(request, pk):
+    item = Client.objects.get(id = pk)
+    if request.method == 'POST':
+        item.delete()
+        return redirect('dashboard-clients')
+    context = {
+        'item': item
+    }
+    return render(request,'dashboard/clients_delete.html',context)
+
+def clients_edit(request,pk):
+    item = Client.objects.get(id=pk)
+    if request.method == 'POST':
+        form = ClientForm(request.POST,instance = item)
+        if form.is_valid():
+            form.save()
+            return redirect('dashboard-clients')
+        
+    else:
+        form = ClientForm(instance = item)
+    
+    context = {
+        'form' : form,
+    }
+    
+    return render(request, 'dashboard/clients_edit.html',context)
 
 @login_required
 def bookings(request):

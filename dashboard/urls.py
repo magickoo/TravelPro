@@ -4,7 +4,10 @@ from . import views
 urlpatterns = [
      #dashboard
     path('dashboard',views.index,name ='dashboard'),
+    
+    #staff
     path('staff',views.staff,name ='dashboard-staff'),
+    path('staff/detail/<int:pk>/',views.staff_detail,name ='dashboard-staff-detail'),
     
     #cars
     path('cars',views.cars,name ='dashboard-cars'),

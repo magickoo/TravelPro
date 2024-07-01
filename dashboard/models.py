@@ -6,6 +6,7 @@ CATEGORY = (
     ('Mahindra Scorpio','Mahindra Scorpio'),
     ('Hyundai','Hyundai'),
     ('SUV','SUV'),
+    ('Sedan','Sedan'),
 )
 GENDER =(
     ('Male','Male'),

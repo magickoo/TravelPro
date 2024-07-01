@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from .models import Booking, Client, Car
 from .forms import ClientForm, CarForm
+from django.contrib.auth.models import User
 
 @login_required
 def index(request):
@@ -10,7 +11,19 @@ def index(request):
 
 @login_required
 def staff(request):
-    return render(request,'dashboard/staff.html')
+    workers = User.objects.all()
+    context = {
+        'workers' : workers
+    }
+    return render(request,'dashboard/staff.html',context)
+
+@login_required
+def staff_detail(request,pk):
+    workers = User.objects.get(id = pk)
+    context = {
+        'workers' : workers
+    }
+    return render(request,'dashboard/staff_detail.html',context)
 
 @login_required
 def clients(request):
@@ -32,6 +45,7 @@ def clients(request):
     }
     return render(request,'dashboard/clients.html',context)
 
+@login_required
 def clients_delete(request, pk):
     item = Client.objects.get(id = pk)
     if request.method == 'POST':
@@ -42,6 +56,7 @@ def clients_delete(request, pk):
     }
     return render(request,'dashboard/clients_delete.html',context)
 
+@login_required
 def clients_edit(request,pk):
     item = Client.objects.get(id=pk)
     if request.method == 'POST':
@@ -80,7 +95,7 @@ def cars(request):
     }
     return render(request,'dashboard/cars.html',context)
 
-
+@login_required
 def cars_delete(request, pk):
     item = Car.objects.get(id = pk)
     if request.method == 'POST':
@@ -91,6 +106,7 @@ def cars_delete(request, pk):
     }
     return render(request,'dashboard/cars_delete.html',context)
 
+@login_required
 def cars_edit(request,pk):
     item = Car.objects.get(id=pk)
     if request.method == 'POST':

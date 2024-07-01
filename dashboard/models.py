@@ -5,13 +5,21 @@ CATEGORY = (
     ('Suzuki Swift','Suzuki Swift'),
     ('Mahindra Scorpio','Mahindra Scorpio'),
     ('Hyundai','Hyundai'),
+    ('SUV','SUV'),
 )
 GENDER =(
     ('Male','Male'),
     ('Female','Female'),
     ('others','others'),
 )
+class Car(models.Model):
+    name = models.CharField(max_length=100, null=True)
+    type = models.CharField(max_length=20, choices=CATEGORY, null=True)
+    rental_rate = models.CharField(max_length=100, null=True)
 
+    def __str__(self):
+        return f'{self.name}'
+    
 class Client(models.Model):
       name = models.CharField(max_length = 100, null=True)
       gender = models.CharField(max_length = 20,choices = GENDER, null = True)

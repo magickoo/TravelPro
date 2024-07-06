@@ -1,5 +1,7 @@
 from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
+from django.contrib.auth.models import User
+
 CATEGORY = (
     ('Kia','Kia'),
     ('Suzuki Swift','Suzuki Swift'),
@@ -24,8 +26,8 @@ class Car(models.Model):
 
     
 class Booking(models.Model):
-    client = models.CharField(max_length=255, null= True)
-    car = models.CharField(max_length = 100,choices = CATEGORY, null = True)
+    client = models.ForeignKey(User,on_delete= models.CASCADE)
+    car = models.ForeignKey(Car,on_delete= models.CASCADE)
     pickup_location = models.CharField(max_length=255, null= True)
     dropoff_location = models.CharField(max_length=255, null=False)
     

@@ -14,4 +14,4 @@ class CarForm(forms.ModelForm):
 class BookingForm(forms.ModelForm):
     class Meta:
         model = Booking
-        fields = ['car', 'pickup_location', 'dropoff_location']  
+        fields = ['car', 'pickup_location', 'dropoff_location','date']  

@@ -6,6 +6,8 @@ from .forms import CarForm, BookingForm
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.db.models import Count
+import json
+
 
 @login_required
 def index(request):
@@ -13,13 +15,28 @@ def index(request):
     booking_count = booking.count()
     car = Car.objects.all()
     #car_booking_counts = Booking.objects.values('car__name').annotate(count=models.Count('car__name'))
-    car_counts = Car.objects.values('name').annotate(count=Count('name'))
+    car_counts = Car.objects.values('type').annotate(count=Count('name'))
     car_count = car.count()
     customer = User.objects.all()
     customer_count = customer.count()
+    
+    booking_counts = Booking.objects.values('date').annotate(count=Count('id'))
+
+    # Prepare data for chart
+    labels = []
+    data = []
+    for booking in booking_counts:
+        labels.append(booking['date'].strftime('%Y-%m-%d'))  # Format date as needed
+        data.append(booking['count'])
+
+    # Convert data to JSON format for JavaScript
+    labels_json = json.dumps(labels)
+    data_json = json.dumps(data)
+    
     if request.method == 'POST':
         form = BookingForm(request.POST)
         if form.is_valid():
+            form.save()
             obj = form.save(commit=False)
             obj.customer = request.user
             obj.save()
@@ -35,6 +52,8 @@ def index(request):
         'car_count' : car_count,
         'customer_count' : customer_count,
         'car_counts' : car_counts,
+        'labels_json': labels_json,
+        'data_json': data_json,
         #'car_booking_counts': car_booking_counts,,
     }
     return render(request, 'dashboard/index.html',context)

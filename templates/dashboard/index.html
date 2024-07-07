@@ -8,8 +8,12 @@
 <div class="container">
     <div class="row my-5">
         <div class="col-md-6">
-            <div class="bg-white">
+            <div class="bg-white text-center">
+                
+               <h2>Car Model Distribution</h2>
                 <canvas id="myChart1" width="400" height="300"></canvas>
+                
+
                 <script>
                     var ctx = document.getElementById('myChart1').getContext('2d');
                     var myChart1 = new Chart(ctx, {
@@ -17,7 +21,7 @@
                         data: {
 
                             labels: [ {% for car in car_counts %} 
-                            '{{ car.name }}',
+                            '{{ car.type }}',
                         {% endfor %}],
                             datasets: [{
                                 label: 'Available Cabs',
@@ -66,17 +70,18 @@
             </div>
         </div>
         <div class="col-md-6">
-            <div class="bg-white">
+            <div class="bg-white text-center">
+                <h2>Booking Count Distribution</h2>
                 <canvas id="myChart" width="400" height="300"></canvas>
                 <script>
                     var ctx = document.getElementById('myChart').getContext('2d');
                     var myChart = new Chart(ctx, {
                         type: 'bar',
                         data: {
-                            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                            labels: {{ labels_json | safe }},
                             datasets: [{
-                                label: 'Products',
-                                data: [12, 19, 3, 5, 2, 3],
+                                label: 'Bookings',
+                                data: {{ data_json | safe }},
                                 backgroundColor: [
                                     'rgba(255, 99, 132, 1)',
                                     'rgba(54, 162, 235, 1)',

@@ -19,17 +19,17 @@
                             <th scope="col">Car</th>
                             <th scope="col">Pickup Location</th>
                             <th scope="col">Dropoff Location</th>
-                            <th scope="col">Price</th>
+                           
                         </tr>
                     </thead>
                     <tbody>
                         {% for booking in booking %}
                         <tr>
-                            <td>{{ booking.client}} </td>
+                            <td>{{ booking.client.username }} </td>
                             <td>{{ booking.car}} </td>
                             <td>{{ booking.pickup_location}}</td>
                             <td>{{ booking.dropoff_location}}</td>
-                            <td> {{ booking.price }}</td>
+                            
                         </tr>
                         
                         {% endfor %}

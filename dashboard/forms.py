@@ -15,3 +15,6 @@ class BookingForm(forms.ModelForm):
     class Meta:
         model = Booking
         fields = ['car', 'pickup_location', 'dropoff_location','date']  
+        widgets = {
+            'date': forms.DateInput(attrs={'type': 'date'}),
+        }

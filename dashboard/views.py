@@ -38,11 +38,9 @@ def index(request):
     if request.method == 'POST':
         form = BookingForm(request.POST)
         if form.is_valid():
-            form.save()
             obj = form.save(commit=False)
-            obj.customer = request.user
+            obj.client = request.user  # Set the client to the current user
             obj.save()
-            form.save()
             return redirect('dashboard')
     else:
         form = BookingForm()

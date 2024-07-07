@@ -78,10 +78,10 @@
                     var myChart = new Chart(ctx, {
                         type: 'bar',
                         data: {
-                            labels: {{ labels_json | safe }},
+                            labels: [{% for item in booking_by_date %}'{{ item.trunc_date }}',{% endfor %}],
                             datasets: [{
                                 label: 'Bookings',
-                                data: {{ data_json | safe }},
+                                data: [{% for item in booking_by_date %}{{ item.count }},{% endfor %}],
                                 backgroundColor: [
                                     'rgba(255, 99, 132, 1)',
                                     'rgba(54, 162, 235, 1)',

@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.db.models import Count
 import json
-
+from django.db.models.functions import TruncDate
 
 @login_required
 def index(request):
@@ -20,14 +20,16 @@ def index(request):
     customer = User.objects.all()
     customer_count = customer.count()
     
-    booking_counts = Booking.objects.values('date').annotate(count=Count('id'))
+    #booking_counts = Booking.objects.values('date').annotate(count=Count('id'))
+    booking_by_date = booking.annotate(trunc_date=TruncDate('date')).values('trunc_date').annotate(count=Count('id')).order_by('trunc_date')
+   
 
     # Prepare data for chart
     labels = []
     data = []
-    for booking in booking_counts:
-        labels.append(booking['date'].strftime('%Y-%m-%d'))  # Format date as needed
-        data.append(booking['count'])
+    #for booking in booking_counts:
+     #   labels.append(booking['date'].strftime('%Y-%m-%d'))  # Format date as needed
+      #  data.append(booking['count'])
 
     # Convert data to JSON format for JavaScript
     labels_json = json.dumps(labels)
@@ -54,6 +56,7 @@ def index(request):
         'car_counts' : car_counts,
         'labels_json': labels_json,
         'data_json': data_json,
+        'booking_by_date' : booking_by_date,
         #'car_booking_counts': car_booking_counts,,
     }
     return render(request, 'dashboard/index.html',context)
@@ -144,7 +147,7 @@ def cars_edit(request,pk):
 
 
 @login_required
-def bookings(request):
+def booking(request):
     booking = Booking.objects.all()
     booking_count = booking.count()
     customer = User.objects.all()

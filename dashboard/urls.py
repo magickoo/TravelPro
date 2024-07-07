@@ -16,7 +16,7 @@ urlpatterns = [
     path('cars/edit/<int:pk>/', views.cars_edit,
          name='dashboard-cars-edit'),
     #booking
-    path('bookings',views.bookings,name ='dashboard-bookings'),
+    path('bookings',views.booking,name ='dashboard-bookings'),
     
     #client
     #path('clients',views.clients,name ='dashboard-clients'),

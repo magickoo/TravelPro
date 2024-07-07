@@ -15,7 +15,7 @@ def index(request):
     #car_booking_counts = Booking.objects.values('car__name').annotate(count=models.Count('car__name'))
     car_counts = Car.objects.values('name').annotate(count=Count('name'))
     car_count = car.count()
-    customer = User.objects.filter(groups=2)
+    customer = User.objects.all()
     customer_count = customer.count()
     if request.method == 'POST':
         form = BookingForm(request.POST)
@@ -44,9 +44,16 @@ def staff(request):
     workers = User.objects.all()
     car = Car.objects.all()
     car_count = car.count()
+    booking = Booking.objects.all()
+    booking_count = booking.count()
+    customer = User.objects.all()
+    customer_count = customer.count()
     context = {
         'workers' : workers, 
-        'car_count' : car_count
+        'car_count' : car_count,
+        'customer_count' : customer_count,
+        'booking_count' : booking_count
+        
     }
     return render(request,'dashboard/staff.html',context)
 
@@ -63,6 +70,10 @@ def cars(request):
     cars = Car.objects.all()
     car = Car.objects.all()
     car_count = car.count()
+    booking = Booking.objects.all()
+    booking_count = booking.count()
+    customer = User.objects.all()
+    customer_count = customer.count()
     if request.method == 'POST':
         form = CarForm(request.POST)
         if form.is_valid():
@@ -73,8 +84,12 @@ def cars(request):
         form = CarForm()
     context = {
     'car_count': car_count,
+    'booking_count' : booking_count,
+    'customer_count' : customer_count,
        'cars': cars,
+       
        'form': form,
+       
         
     }
     return render(request,'dashboard/cars.html',context)
@@ -112,10 +127,17 @@ def cars_edit(request,pk):
 @login_required
 def bookings(request):
     booking = Booking.objects.all()
+    booking_count = booking.count()
+    customer = User.objects.all()
+    customer_count = customer.count()
     car = Car.objects.all()
     car_count = car.count()
+    
+    
     context = {
         'booking' : booking,
+        'booking_count' : booking_count,
+        'customer_count' : customer_count,
         'car_count': car_count
     }
     return render(request,'dashboard/bookings.html',context)

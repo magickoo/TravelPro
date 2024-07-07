@@ -9,6 +9,10 @@ CATEGORY = (
     ('Hyundai','Hyundai'),
     ('SUV','SUV'),
     ('Sedan','Sedan'),
+    ('Tata','Tata'),
+    ('Volvo','Volvo'),
+    ('Bajaj','Bajaj'),
+    ('Honda','Honda')
 )
 GENDER =(
     ('Male','Male'),
@@ -30,7 +34,6 @@ class Booking(models.Model):
     car = models.ForeignKey(Car,on_delete= models.CASCADE)
     pickup_location = models.CharField(max_length=255, null= True)
     dropoff_location = models.CharField(max_length=255, null=False)
-    
     price = models.DecimalField(max_digits=10, decimal_places=2, null=True)
     
     def __str__(self):

@@ -5,12 +5,15 @@ from .models import Booking,  Car
 from .forms import CarForm, BookingForm
 from django.contrib.auth.models import User
 from django.contrib import messages
+from django.db.models import Count
 
 @login_required
 def index(request):
     booking = Booking.objects.all()
     booking_count = booking.count()
     car = Car.objects.all()
+    #car_booking_counts = Booking.objects.values('car__name').annotate(count=models.Count('car__name'))
+    car_counts = Car.objects.values('name').annotate(count=Count('name'))
     car_count = car.count()
     customer = User.objects.filter(groups=2)
     customer_count = customer.count()
@@ -18,7 +21,7 @@ def index(request):
         form = BookingForm(request.POST)
         if form.is_valid():
             obj = form.save(commit=False)
-            obj.staff = request.user
+            obj.customer = request.user
             obj.save()
             form.save()
             return redirect('dashboard')
@@ -27,17 +30,23 @@ def index(request):
     context = {
         'booking' : booking,
         'form' : form,
+        'car' : car,
         'booking_count' : booking_count,
         'car_count' : car_count,
         'customer_count' : customer_count,
+        'car_counts' : car_counts,
+        #'car_booking_counts': car_booking_counts,,
     }
     return render(request, 'dashboard/index.html',context)
 
 @login_required
 def staff(request):
     workers = User.objects.all()
+    car = Car.objects.all()
+    car_count = car.count()
     context = {
-        'workers' : workers
+        'workers' : workers, 
+        'car_count' : car_count
     }
     return render(request,'dashboard/staff.html',context)
 
@@ -52,7 +61,8 @@ def staff_detail(request,pk):
 @login_required
 def cars(request):
     cars = Car.objects.all()
-    
+    car = Car.objects.all()
+    car_count = car.count()
     if request.method == 'POST':
         form = CarForm(request.POST)
         if form.is_valid():
@@ -62,7 +72,7 @@ def cars(request):
     else:
         form = CarForm()
     context = {
-        
+    'car_count': car_count,
        'cars': cars,
        'form': form,
         
@@ -102,7 +112,10 @@ def cars_edit(request,pk):
 @login_required
 def bookings(request):
     booking = Booking.objects.all()
+    car = Car.objects.all()
+    car_count = car.count()
     context = {
         'booking' : booking,
+        'car_count': car_count
     }
     return render(request,'dashboard/bookings.html',context)
